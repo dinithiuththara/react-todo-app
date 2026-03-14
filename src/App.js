@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import bgImage from "./assets/bg.jpg";
+import bunny from "./assets/download.png";
 
 function App() {
   const [task, setTask] = useState("");
   const [priority, setPriority] = useState("Medium");
   const [date, setDate] = useState("");
   const [tasks, setTasks] = useState([]);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
 
   useEffect(() => {
     const savedTasks = localStorage.getItem("tasks");
@@ -16,7 +18,7 @@ function App() {
       setTasks(JSON.parse(savedTasks));
     }
 
-    if (savedTheme) {
+    if (savedTheme !== null) {
       setDarkMode(JSON.parse(savedTheme));
     }
   }, []);
@@ -61,204 +63,225 @@ function App() {
   const getPriorityStyle = (priority) => {
     if (priority === "High") {
       return darkMode
-        ? "bg-rose-900/40 text-rose-300 border border-rose-700"
+        ? "bg-rose-500/20 text-rose-200 border border-rose-400/20"
         : "bg-rose-100 text-rose-600 border border-rose-200";
     }
+
     if (priority === "Medium") {
       return darkMode
-        ? "bg-amber-900/40 text-amber-300 border border-amber-700"
+        ? "bg-amber-500/20 text-amber-200 border border-amber-400/20"
         : "bg-amber-100 text-amber-700 border border-amber-200";
     }
+
     return darkMode
-      ? "bg-emerald-900/40 text-emerald-300 border border-emerald-700"
+      ? "bg-emerald-500/20 text-emerald-200 border border-emerald-400/20"
       : "bg-emerald-100 text-emerald-700 border border-emerald-200";
   };
 
   return (
     <div
-      className={`min-h-screen flex items-center justify-center p-6 transition-colors duration-300 ${
-        darkMode
-          ? "bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800"
-          : "bg-gradient-to-br from-pink-100 via-rose-50 to-purple-100"
-      }`}
+      className="min-h-screen bg-cover bg-center bg-no-repeat relative flex items-center justify-center px-4 py-8"
+      style={{ backgroundImage: `url(${bgImage})` }}
     >
+     
       <div
-        className={`w-full max-w-2xl rounded-3xl p-8 shadow-2xl border transition-colors duration-300 ${
+        className={`absolute inset-0 transition ${
+          darkMode ? "bg-black/55" : "bg-white/45"
+        }`}
+      ></div>
+
+      
+      <div
+        className={`relative z-10 w-full max-w-2xl rounded-[30px] border shadow-2xl backdrop-blur-xl transition ${
           darkMode
-            ? "bg-slate-900/80 border-slate-700 text-white"
-            : "bg-white/80 border-white/60 text-slate-800"
+            ? "bg-[#171827]/80 border-white/10 text-white"
+            : "bg-white/75 border-white/50 text-slate-800"
         }`}
       >
-        <div className="mb-8 text-center relative">
-          <h1 className="text-4xl font-bold">Todo App</h1>
-          <p className={darkMode ? "text-slate-400 mt-2" : "text-slate-500 mt-2"}>
-            Organize your day beautifully
-          </p>
-
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className={`absolute right-0 top-0 px-4 py-2 rounded-xl text-sm font-medium transition ${
-              darkMode
-                ? "bg-yellow-400 text-slate-900 hover:bg-yellow-300"
-                : "bg-slate-800 text-white hover:bg-slate-700"
-            }`}
-          >
-            {darkMode ? "Light Mode" : "Dark Mode"}
-          </button>
-        </div>
-
-        <div
-          className={`rounded-2xl shadow-lg p-5 mb-6 border transition-colors duration-300 ${
-            darkMode
-              ? "bg-slate-800 border-slate-700"
-              : "bg-white border-slate-100"
-          }`}
-        >
-          <div className="flex flex-col gap-4">
-            <input
-              type="text"
-              placeholder="Enter your task here..."
-              value={task}
-              onChange={(e) => setTask(e.target.value)}
-              className={`w-full rounded-xl px-4 py-3 outline-none border transition ${
-                darkMode
-                  ? "bg-slate-900 border-slate-600 text-white placeholder:text-slate-400 focus:ring-2 focus:ring-violet-400"
-                  : "bg-white border-slate-200 text-slate-700 placeholder:text-slate-400 focus:ring-2 focus:ring-violet-300"
-              }`}
-            />
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <select
-                value={priority}
-                onChange={(e) => setPriority(e.target.value)}
-                className={`rounded-xl px-4 py-3 outline-none border transition ${
-                  darkMode
-                    ? "bg-slate-900 border-slate-600 text-white focus:ring-2 focus:ring-violet-400"
-                    : "bg-white border-slate-200 text-slate-700 focus:ring-2 focus:ring-violet-300"
-                }`}
-              >
-                <option value="High">High Priority</option>
-                <option value="Medium">Medium Priority</option>
-                <option value="Low">Low Priority</option>
-              </select>
-
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                className={`rounded-xl px-4 py-3 outline-none border transition ${
-                  darkMode
-                    ? "bg-slate-900 border-slate-600 text-white focus:ring-2 focus:ring-violet-400"
-                    : "bg-white border-slate-200 text-slate-700 focus:ring-2 focus:ring-violet-300"
-                }`}
+        <div className="p-5 sm:p-6 md:p-7">
+         
+          <div className="mb-6 flex items-start justify-between gap-4">
+            <div className="flex items-start gap-3">
+              <img
+                src={bunny}
+                alt="Bunny"
+                className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
               />
+
+              <div>
+                <h1
+                  className={`text-3xl sm:text-4xl ${
+                    darkMode ? "text-[#fff2df]" : "text-slate-900"
+                  }`}
+                  style={{ fontFamily: "Georgia, serif" }}
+                >
+                  Zootopia Tasks
+                </h1>
+
+                <p
+                  className={`mt-1 text-md ${
+                    darkMode ? "text-slate-300" : "text-slate-600"
+                  }`}
+                >
+                  Try everything – organize your day!
+                </p>
+              </div>
             </div>
 
             <button
-              onClick={addTask}
-              className="w-full rounded-xl bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white font-semibold py-3 shadow-md hover:scale-[1.01] hover:shadow-lg transition"
-            >
-              Add Task
-            </button>
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          {tasks.length === 0 ? (
-            <div
-              className={`rounded-2xl p-8 text-center border ${
+              onClick={() => setDarkMode(!darkMode)}
+              className={`rounded-full px-5 py-2 text-sm font-semibold transition ${
                 darkMode
-                  ? "bg-slate-800 border-slate-700"
-                  : "bg-slate-50 border-slate-200"
+                  ? "bg-white text-slate-900 hover:bg-slate-100"
+                  : "bg-[#231c1c] text-white hover:bg-[#171212]"
               }`}
             >
-              <p className={darkMode ? "text-slate-300 text-lg" : "text-slate-500 text-lg"}>
-                No tasks added yet
-              </p>
-              <p className={darkMode ? "text-slate-500 text-sm mt-1" : "text-slate-400 text-sm mt-1"}>
-                Add your first task and start planning
-              </p>
-            </div>
-          ) : (
-            tasks.map((item) => (
-              <div
-                key={item.id}
-                className={`rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border shadow-md transition ${
+              {darkMode ? "☀ Light Mode" : "☾ Dark Mode"}
+            </button>
+          </div>
+
+         
+          <div
+            className={`rounded-[24px] border p-4 sm:p-5 mb-6 shadow-xl ${
+              darkMode
+                ? "bg-white/10 border-white/10"
+                : "bg-white/35 border-white/45"
+            }`}
+          >
+            <div className="flex flex-col gap-4">
+              <input
+                type="text"
+                placeholder="Enter your task here..."
+                value={task}
+                onChange={(e) => setTask(e.target.value)}
+                className={`w-full rounded-xl px-5 py-3 outline-none border transition ${
                   darkMode
-                    ? "bg-slate-800 border-slate-700"
-                    : "bg-white border-slate-100"
+                    ? "bg-[#212431] border-white/10 text-white placeholder:text-slate-400"
+                    : "bg-[#edf2ef] border-slate-200 text-slate-700"
+                }`}
+              />
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <select
+                  value={priority}
+                  onChange={(e) => setPriority(e.target.value)}
+                  className={`rounded-xl px-4 py-3 outline-none border ${
+                    darkMode
+                      ? "bg-[#212431] border-white/10 text-white"
+                      : "bg-[#edf2ef] border-slate-200 text-slate-700"
+                  }`}
+                >
+                  <option value="High">High Priority</option>
+                  <option value="Medium">Medium Priority</option>
+                  <option value="Low">Low Priority</option>
+                </select>
+
+                <input
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  className={`rounded-xl px-4 py-3 outline-none border ${
+                    darkMode
+                      ? "bg-[#212431] border-white/10 text-white"
+                      : "bg-[#edf2ef] border-slate-200 text-slate-700"
+                  }`}
+                />
+              </div>
+
+              <button
+                onClick={addTask}
+                className="w-full rounded-xl bg-gradient-to-r from-[#3387df] to-[#35c5c8] text-white font-semibold py-3 shadow-md hover:scale-[1.01] transition"
+              >
+                Add Task
+              </button>
+            </div>
+          </div>
+
+          
+          <div className="space-y-3">
+            {tasks.length === 0 ? (
+              <div
+                className={`rounded-[24px] border p-8 text-center min-h-[200px] flex flex-col items-center justify-center ${
+                  darkMode
+                    ? "bg-white/8 border-white/10"
+                    : "bg-white/30 border-white/40"
                 }`}
               >
-                <div className="flex items-start gap-3">
-                  <input
-                    type="checkbox"
-                    checked={item.completed}
-                    onChange={() => toggleComplete(item.id)}
-                    className="mt-1 h-5 w-5 accent-violet-500"
-                  />
+                <img
+                  src={bunny}
+                  alt="Bunny"
+                  className="w-20 h-20 object-contain mb-4"
+                />
 
-                  <div>
-                    <p
-                      className={`text-lg font-medium ${
-                        item.completed
-                          ? darkMode
-                            ? "line-through text-slate-500"
-                            : "line-through text-slate-400"
-                          : darkMode
-                          ? "text-white"
-                          : "text-slate-800"
-                      }`}
-                    >
-                      {item.text}
-                    </p>
+                <p
+                  className={`text-xl font-semibold ${
+                    darkMode ? "text-slate-300" : "text-slate-600"
+                  }`}
+                >
+                  No tasks added yet
+                </p>
 
-                    <div className="flex flex-wrap gap-2 mt-3">
-                      <span
-                        className={`text-xs font-semibold px-3 py-1 rounded-full ${getPriorityStyle(
-                          item.priority
-                        )}`}
-                      >
-                        {item.priority}
-                      </span>
+                <p className="text-sm text-slate-400">
+                  Add your first task and start planning
+                </p>
+              </div>
+            ) : (
+              tasks.map((item) => (
+                <div
+                  key={item.id}
+                  className={`rounded-xl p-4 flex items-center justify-between gap-4 border shadow-md ${
+                    darkMode
+                      ? "bg-white/10 border-white/10"
+                      : "bg-white/50 border-white/40"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      checked={item.completed}
+                      onChange={() => toggleComplete(item.id)}
+                      className="h-5 w-5 accent-cyan-500"
+                    />
 
-                      {item.date && (
-                        <span
-                          className={`text-xs font-semibold px-3 py-1 rounded-full border ${
-                            darkMode
-                              ? "bg-blue-900/40 text-blue-300 border-blue-700"
-                              : "bg-blue-100 text-blue-700 border-blue-200"
-                          }`}
-                        >
-                          {item.date}
-                        </span>
-                      )}
-
-                      <span
-                        className={`text-xs font-semibold px-3 py-1 rounded-full border ${
+                    <div>
+                      <p
+                        className={`text-lg ${
                           item.completed
-                            ? darkMode
-                              ? "bg-emerald-900/40 text-emerald-300 border-emerald-700"
-                              : "bg-emerald-100 text-emerald-700 border-emerald-200"
+                            ? "line-through text-slate-400"
                             : darkMode
-                            ? "bg-slate-700 text-slate-300 border-slate-600"
-                            : "bg-slate-100 text-slate-600 border-slate-200"
+                            ? "text-white"
+                            : "text-slate-800"
                         }`}
                       >
-                        {item.completed ? "Completed" : "Pending"}
-                      </span>
+                        {item.text}
+                      </p>
+
+                      <div className="flex gap-2 mt-2">
+                        <span
+                          className={`text-xs px-3 py-1 rounded-full ${getPriorityStyle(
+                            item.priority
+                          )}`}
+                        >
+                          {item.priority}
+                        </span>
+
+                        <span className="text-xs px-3 py-1 rounded-full bg-slate-200 text-slate-700">
+                          {item.completed ? "Completed" : "Pending"}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <button
-                  onClick={() => deleteTask(item.id)}
-                  className="self-start sm:self-center rounded-xl bg-rose-500 text-white px-4 py-2 font-medium hover:bg-rose-600 transition shadow-sm"
-                >
-                  Delete
-                </button>
-              </div>
-            ))
-          )}
+                  <button
+                    onClick={() => deleteTask(item.id)}
+                    className="rounded-lg bg-rose-500 text-white px-4 py-2 text-sm hover:bg-rose-600 transition"
+                  >
+                    Delete
+                  </button>
+                </div>
+              ))
+            )}
+          </div>
         </div>
       </div>
     </div>
